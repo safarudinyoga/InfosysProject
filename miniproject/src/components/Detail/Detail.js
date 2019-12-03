@@ -2,9 +2,50 @@ import React, { Component } from 'react';
 import Star from '../ListItem/Stars';
 import Header from '../Header';
 import { Button, ButtonToolbar } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { loadData } from '../../actions/index';
+import ImageDetail from '../Detail/ImageDetail';
+import Price from '../ListItem/Price';
+import * as moment from 'moment';
 
-export default class Detail extends Component {
+class Detail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: '',
+            price: '',
+            original_title: '',
+            vote_average: '',
+            vote_count: '',
+            poster_path: '',
+            jam: '',
+            menit: ''
+        };
+    }
+
+    formatRuntime = (runtime) => {
+        let hours = (runtime / 60)
+        let rhours = Math.floor(hours)
+        let minutes = (hours - rhours) * 60
+        let rminutes = Math.floor(minutes)
+        // this.setState({
+        //     jam: rhours,
+        //     minutes: rminutes
+        // })
+        // return hasil = 
+        console.log(rhours, rminutes)
+    }
+
+    componentDidMount() {
+        this.props.loadData()
+    }
+
     render() {
+        console.log('data', this.props.data);
+        console.log('state', this.state.jam, this.state.menit)
+        const { poster_path, original_title, vote_count, vote_average, adult, tagline, runtime, release_date, overview } = this.props.data
+        // console.log('time', moment(release_date).format('DD-MMMM-YYYY'))
+
         return (
             <div>
                 <Header />
@@ -20,8 +61,9 @@ export default class Detail extends Component {
                                         <div className="col-md-4">
                                             <div className="card-body">
                                                 <div className="text-center">
-                                                    <img src='http://via.placeholder.com/250x150'
-                                                        className="rounded" width="100%" height="350px" alt="..." />
+                                                    {/* <img src='http://via.placeholder.com/250x150'
+                                                        className="rounded" width="100%" height="350px" alt="..." /> */}
+                                                    <ImageDetail poster_path={poster_path} />
                                                 </div>
                                             </div>
                                         </div>
@@ -29,28 +71,28 @@ export default class Detail extends Component {
                                         <div className="col-md-8">
                                             <div className="card-body">
                                                 <h1 className="card-title my-0 mt-4">
-                                                    {/* {this.props.product.title} */}
-                                                    tes
-                                                    </h1>
+                                                    {original_title}
+                                                </h1>
 
-                                                <h4 className="card-title text-secondary">testing<span className='divider'> | </span>testing</h4>
+                                                <h5 className="card-title text-secondary my-1">{adult ? 'R' : 'PG13'}<span className='divider'> | </span>{tagline}<span className='divider'> | </span>{`${runtime} Minutes`}<span className='divider'> | </span>{moment(release_date).format('DD-MMMM-YYYY')}</h5>
+                                                <h5 className="card-title">{overview}</h5>
 
                                                 <h4 className="card-title text-primary">
-                                                    {/* {this.props.product.brand} */}tes
-                                                    <span style={{ fontSize: "10px" }}>
-                                                        {/* ( {this.props.product.vote} Likes ) */}likes
+                                                    {`${vote_average} / 10 `}
+                                                    <span style={{ fontSize: "15px" }}>
+                                                        ( {vote_count} Likes )
                                                         </span>
                                                 </h4>
 
-                                                <Star />
+                                                <Star rate={vote_average}/>
                                                 {/* <Star rate={this.props.product.rate} /> */}
 
-                                                <h3 className="card-text">
+                                                <h3 className="card-text my-2">
                                                     {/* {this.props.product.price} */}
-                                                    Rp. 100000
+                                                    <Price rate={vote_average} />
                                                 </h3>
 
-                                                <label htmlFor="Quantity" >Quantity</label>
+                                                {/* <label htmlFor="Quantity" >Quantity</label> */}
                                                 {/* <span className="row ml-1 mb-3">
                                                     <button
                                                         type="button"
@@ -118,3 +160,16 @@ export default class Detail extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    data: state.movie
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    loadData: () => dispatch(loadData())
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Detail)

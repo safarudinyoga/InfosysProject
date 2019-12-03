@@ -1,4 +1,5 @@
 // Load Success
-export const LOAD_DATA = 'LOAD_DATA';
 export const LOAD_DATA_SUCCESS = 'LOAD_DATA_SUCCESS';
 export const LOAD_DATA_FAILURE = 'LOAD_DATA_FAILURE';
+export const LOAD_IMAGE_SUCCESS = 'LOAD_IMAGE_SUCCESS';
+export const LOAD_IMAGE_FAILURE = 'LOAD_IMAGE_FAILURE';

@@ -62,12 +62,12 @@ export default function Pricing() {
             <AppBar position="static" color="inherit" elevation={0} className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <Typography variant="h6" color="primary" noWrap className={classes.toolbarTitle}>
-                        Biota (Bioskop Kita)
+                        <Link href="/" >Biota (Bioskop Kita)</Link>                  
           </Typography>
                     <nav>
                         <Grid container alignItems="center" className={classes.root}>
                             <Link variant="button" color="inherit" className={classes.link}>
-                                <i class="fas fa-wallet"></i>
+                                <i className="fas fa-wallet"></i>
                             </Link>
                             <Divider orientation="vertical" />
                             <Link variant="button" color="textPrimary" className={classes.link}>
@@ -76,7 +76,7 @@ export default function Pricing() {
                         </Grid>
                     </nav>
                     <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                        <i class="fas fa-cart-plus"></i>
+                        <i className="fas fa-cart-plus"></i>
                     </Link>
                     <Button href="#" color="primary" variant="outlined" className={classes.link}>
                         Login
