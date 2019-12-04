@@ -8,7 +8,6 @@ import { ConnectedRouter } from "connected-react-router";
 import store, { history } from "./configuration";
 import Movie from './components/Movie';
 import Detail from './components/Detail/Detail';
-import Image from './components/ListItem/Image';
 
 const routing = (
     <Provider store={store}>
