@@ -2,7 +2,9 @@ import React from 'react'
 
 export default function Star(props) {
     const stars = (rate) => [...Array(5)].map((item, index) => {
+        // console.log('star',rate)
         index += 1;
+        rate -= 1;
         if (index <= rate)
             return <i key={index} className="fas fa-star text-warning"></i>
         else if (index - rate < 1 && index - rate > 0) {
