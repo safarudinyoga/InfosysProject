@@ -3,7 +3,7 @@ import Star from '../ListItem/Stars';
 import Header from '../Header';
 import { Button, ButtonToolbar, Card, CardDeck } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { loadDetail, loadData } from '../../actions/index';
+// import { loadData } from '../../actions/index';
 // import ImageDetail from '../Detail/ImageDetail';
 import Price from '../ListItem/Price';
 import * as moment from 'moment';
@@ -20,17 +20,29 @@ class Detail extends Component {
             vote_count: '',
             poster_path: '',
             jam: '',
-            menit: ''
+            menit: '',
+            buy: true,
+            like: false
         };
     }
 
-    componentDidMount() {
-        this.props.loadData()
+    handleClickBuy = () => {
+        this.setState({
+            buy: !this.state.buy
+        })
+    }
+
+    handleClickLike = () => {
+        this.setState({
+            like: !this.state.like
+        })
     }
 
     render() {
-        console.log('data detail', this.props.detail);
-        console.log('data movie', this.props.data);
+        // console.log('data detail', this.props.detail);
+        // console.log('data recommention', this.props.recommendation);
+        // console.log('data movie', this.props.data);
+        // console.log('click', this.state.buy);
 
         const { poster_path, original_title, vote_count, vote_average, adult, tagline, runtime, release_date, overview } = this.props.detail
 
@@ -41,7 +53,6 @@ class Detail extends Component {
                     <div className="container">
                         <div className="card my-5">
                             <div className="card-header text-center bg-dark">
-
                             </div>
                             <div className="card-body">
                                 <div className="card">
@@ -75,15 +86,15 @@ class Detail extends Component {
                                                 <h3 className="card-text my-2">
                                                     <Price rate={vote_average} />
                                                 </h3>
-
                                                 <ButtonToolbar>
-                                                    <Button className="mr-2" variant="success" >
+                                                    {this.state.buy ? <Button onClick={this.handleClickBuy} className="mr-2" variant="success" >
                                                         <i className="fas fa-shopping-cart "></i> Buy Now
-                                                </Button>
-                                                    <button type="button" className="btn btn-primary col-md-2" > <i
-                                                        className="far fa-thumbs-up "></i> Like </button>
+                                                </Button> : <Button onClick={this.handleClickBuy} className="mr-2" variant="danger" >
+                                                            <i class="fas fa-window-close"></i> Cancel Buy
+                                                </Button>}
+                                                    {this.state.like ? <Button onClick={this.handleClickLike} type="button" className="btn btn-primary col-md-2" > <i
+                                                        className="far fa-thumbs-up "></i> Like </Button> : <Button onClick={this.handleClickLike} type="button" className="btn btn-primary" > <i className="far fa-thumbs-down"></i> Dislike </Button>}
                                                 </ButtonToolbar>
-
                                             </div>
                                         </div>
                                     </div>
@@ -98,7 +109,7 @@ class Detail extends Component {
                             More Like This
                         </div>
                         <CardDeck>
-                            {Object.values(this.props.data).map((item, index) => {
+                            {Object.values(this.props.recommendation).map((item, index) => {
                                 return (
                                     <ItemCard key={index} data={item} />
                                 )
@@ -113,11 +124,12 @@ class Detail extends Component {
 
 const mapStateToProps = (state) => ({
     detail: state.detail,
-    data: state.movie
+    recommendation: state.recommendation,
+    // data: state.movie
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    loadData: () => dispatch(loadData())
+    // loadData: () => dispatch(loadData())
 })
 
 export default connect(

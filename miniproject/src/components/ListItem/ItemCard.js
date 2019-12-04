@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import Star from './Stars';
 import { connect } from 'react-redux';
-import { loadDetail } from '../../actions/index';
+import { loadDetail, loadRecommendation } from '../../actions/index';
 import Image from './Image';
 import Price from './Price';
 
@@ -16,7 +16,8 @@ class ItemCard extends Component {
             vote_average: '',
             vote_count: '',
             poster_path: '',
-            hover: false
+            hover: false,
+            buy: props.buy
         };
     }
 
@@ -34,6 +35,7 @@ class ItemCard extends Component {
 
     getDetail = () => {
         this.props.loadDetail(this.props.data.id)
+        this.props.loadRecommendation(this.props.data.id)
     }
 
     render() {
@@ -46,10 +48,13 @@ class ItemCard extends Component {
                     <Card onClick={this.getDetail} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} style={{ maxWidth: '350px', borderRadius: '10px', transition: '0.5s ease', cursor: 'pointer', ...(hover && { boxShadow: '5px 5px 20px rgba(0,0,0,0.4)' }) }}>
                         <Image poster_path={poster_path} />
                         <Card.Body>
-                            <Card.Title style={{ wordBreak: 'break-word' }}>{original_title}</Card.Title>
+                            <Card.Title style={{ wordBreak: 'break-word', fontSize: '3vh' }}>{original_title}</Card.Title>
                             <Star rate={vote_average} />
                             <Card.Text>
                                 {`${vote_count} Votes`}
+                            </Card.Text>
+                            <Card.Text>
+                                {this.state.buy ? <i class="fas fa-check"></i> : <i className="fas fa-plus"></i>}
                             </Card.Text>
                         </Card.Body>
                         <Card.Footer className="d-flex justify-content-between">
@@ -64,7 +69,8 @@ class ItemCard extends Component {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    loadDetail: (id) => dispatch(loadDetail(id))
+    loadDetail: (id) => dispatch(loadDetail(id)),
+    loadRecommendation: (id) => dispatch(loadRecommendation(id))
 })
 
 export default connect(
