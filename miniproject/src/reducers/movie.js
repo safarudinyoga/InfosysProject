@@ -6,7 +6,9 @@ import {
 const movie = (state = {}, action) => {
     switch (action.type) {
         case LOAD_DATA_SUCCESS:
-            return action.movie
+            return {
+                ...action.movie
+            }
 
         case LOAD_DATA_FAILURE:
         default:
