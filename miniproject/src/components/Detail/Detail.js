@@ -64,23 +64,25 @@ class Detail extends Component {
 												<h5 className="card-title text-secondary my-1">
 													{adult ? 'R' : 'PG13'}
 													<span className="divider"> | </span>
-													{tagline ? tagline : ''}
+													{tagline && tagline}
 													<span className="divider"> | </span>
-													{`${runtime ? runtime : ''} Minutes`}
+													{`${runtime && runtime} Minutes`}
 													<span className="divider"> | </span>
-													{moment(release_date).format('DD-MMMM-YYYY')}
+													{moment(release_date && release_date).format('DD-MMMM-YYYY')}
 												</h5>
-												<h5 className="card-title">{overview ? overview : ''}</h5>
+												<h5 className="card-title">{overview && overview}</h5>
 
 												<h4 className="card-title text-primary">
-													{`${vote_average} / 10 `}
-													<span style={{ fontSize: '15px' }}>( {vote_count} Likes )</span>
+													{`${vote_average ? vote_average : 0} / 10 `}
+													<span style={{ fontSize: '15px' }}>
+														( {vote_count && vote_count} Likes )
+													</span>
 												</h4>
 
-												<Star rate={vote_average} />
+												<Star rate={vote_average ? vote_average : 0} />
 
 												<h3 className="card-text my-2">
-													<Price rate={vote_average} />
+													<Price rate={vote_average ? vote_average : 0} />
 												</h3>
 												<ButtonToolbar>
 													<Buy />

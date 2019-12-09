@@ -25,11 +25,12 @@ class BoxFilm extends Component {
 
 	render() {
 		// console.log('data box', this.props.data);
+		let { data } = this.props;
 		return (
 			<div className="container-fluid ">
 				<div className="card card-responsive-width" style={{ padding: '5vh' }}>
 					<CardDeck>
-						{Object.values(this.props.data).map((item, index) => {
+						{Object.values(data).map((item, index) => {
 							return <ItemCard key={index} data={item} />;
 						})}
 					</CardDeck>

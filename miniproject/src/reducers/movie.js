@@ -1,19 +1,25 @@
-import {
-    LOAD_DATA_SUCCESS,
-    LOAD_DATA_FAILURE
-} from '../constants/constant';
+import { LOAD_DATA_SUCCESS, LOAD_DATA_FAILURE } from '../constants/constant';
 
-const movie = (state = {}, action) => {
-    switch (action.type) {
-        case LOAD_DATA_SUCCESS:
-            return {
-                ...action.movie
-            }
+const initial = {
+	original_title: '',
+	backdrop_path: '',
+	vote_averange: 0,
+	vote_count: 0,
+	buy: false
+};
 
-        case LOAD_DATA_FAILURE:
-        default:
-            return state
-    }
-}
+const movie = (state = initial, action) => {
+	switch (action.type) {
+		case LOAD_DATA_SUCCESS:
+			// console.log('reducers', state);
+			return {
+				...action.movie
+			};
+
+		case LOAD_DATA_FAILURE:
+		default:
+			return state;
+	}
+};
 
 export default movie;

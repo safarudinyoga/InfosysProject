@@ -18,10 +18,10 @@ class Image extends Component {
     render() {
         // console.log('props', this.props.poster_path);
         // console.log('image', this.props.image)
-        const { base_url } = this.props.image
+        const { image, poster_path } = this.props
         return (
             <div>
-                <Card.Img variant="top" style={{ height: '450px', width: '100%', objectFit: 'cover', borderRadius: '10px' }} className="text-center" src={`${base_url}w500${this.props.poster_path}`} />
+                <Card.Img variant="top" style={{ height: '450px', width: '100%', objectFit: 'cover', borderRadius: '10px' }} className="text-center" src={`${image.base_url}w500${poster_path}`} />
             </div>
         )
     }
