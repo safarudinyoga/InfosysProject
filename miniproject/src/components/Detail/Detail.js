@@ -3,6 +3,7 @@ import Star from '../ListItem/Stars';
 import Header from '../Header';
 import { ButtonToolbar, Card, CardDeck } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 import Price from '../ListItem/Price';
 import * as moment from 'moment';
 import ItemCard from '../ListItem/ItemCard';
@@ -98,7 +99,7 @@ class Detail extends Component {
 				<div className="container-fluid" style={{ width: '1250px' }}>
 					<div className="card card-responsive-width" style={{ padding: '5vh' }}>
 						<div className="card-header" style={{ fontWeight: 'bold', fontSize: '3vh' }}>
-							More Like This
+							{this.props.t(`DETAIL.${'More Like This'}`)}
 						</div>
 						<CardDeck>
 							{Object.values(this.props.recommendation).map((item, index) => {
@@ -119,4 +120,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Detail);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('common')(Detail));

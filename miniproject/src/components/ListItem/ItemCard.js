@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import Star from './Stars';
 import { connect } from 'react-redux';
 import { loadDetail, loadRecommendation } from '../../actions/index';
+import { withTranslation } from 'react-i18next';
 import Image from './Image';
 import Price from './Price';
 
@@ -72,7 +73,7 @@ class ItemCard extends Component {
 						<Card.Footer className="d-flex justify-content-between">
 							<Price rate={vote_average} />
 							<Button className="text-right mx-2" onClick={this.getDetail} variant="dark">
-								Detail
+								{this.props.t(`DETAIL.${'Selengkapnya'}`)}
 							</Button>
 						</Card.Footer>
 					</Card>
@@ -87,4 +88,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 	loadRecommendation: (id) => dispatch(loadRecommendation(id))
 });
 
-export default connect(null, mapDispatchToProps)(ItemCard);
+export default connect(null, mapDispatchToProps)(withTranslation('common')(ItemCard));
