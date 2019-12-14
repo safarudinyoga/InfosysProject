@@ -11,6 +11,7 @@ import i18next from 'i18next';
 import { config as i18nextConfig } from './translation/index';
 import Movie from './components/Movie';
 import Detail from './components/Detail/Detail';
+import Service from './components/belajarService';
 
 i18next.init(i18nextConfig);
 
@@ -21,6 +22,7 @@ const routing = (
 				<Router history={history}>
 					<Route exact path="/" component={Movie} />
 					<Route path="/detail" component={Detail} />
+					<Route path="/service" component={Service} />
 				</Router>
 			</ConnectedRouter>
 		</I18nextProvider>

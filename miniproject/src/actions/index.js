@@ -6,7 +6,11 @@ import {
 	LOAD_DETAIL_SUCCESS,
 	LOAD_DETAIL_FAILURE,
 	LOAD_RECOMMENDATION_SUCCESS,
-	LOAD_RECOMMENDATION_FAILURE
+	LOAD_RECOMMENDATION_FAILURE,
+	EDIT_ON,
+	EDIT_OFF,
+	MOVIE_SELECTED,
+	MOVIE_DESELECTED
 } from '../constants/constant';
 import { request } from '../helpers/accessAPI';
 import { push } from 'connected-react-router';
@@ -94,3 +98,21 @@ export const loadRecommendation = (id) => async (dispatch) => {
 		dispatch(loadRecommendationFailure());
 	}
 };
+
+export const editOn = () => ({
+	type: EDIT_ON
+});
+
+export const editOff = () => ({
+	type: EDIT_OFF
+});
+
+export const movieSelected = (movie) => ({
+	type: MOVIE_SELECTED,
+	movie
+});
+
+export const movieDeselected = (movie) => ({
+	type: MOVIE_DESELECTED,
+	movie
+});

@@ -18,7 +18,8 @@ class ItemCard extends Component {
 			vote_count: '',
 			poster_path: '',
 			hover: false,
-			buy: props.buy
+			buy: '',
+			watchlist: props.watchlist
 		};
 	}
 
@@ -41,10 +42,12 @@ class ItemCard extends Component {
 	};
 
 	render() {
-		const { poster_path, original_title, vote_average, vote_count } = this.props.data;
+		// console.log('itemCard', this.props.data && this.props.data.id);
+		// const { poster_path, original_title, vote_average, vote_count } = this.props.data;
 		const { hover } = this.state;
+		// console.log('watchlist', this.state.watchlist);
 		return (
-			<div className="my-3" style={{ display: 'flex', alignContent: 'center' }}>
+			<div className="my-3 mx-4 col d-flex justify-content-center">
 				<React.Fragment>
 					<Card
 						onClick={this.getDetail}
@@ -55,26 +58,28 @@ class ItemCard extends Component {
 							borderRadius: '10px',
 							transition: '0.5s ease',
 							cursor: 'pointer',
-							...(hover && { boxShadow: '5px 5px 20px rgba(0,0,0,0.4)' })
+							...(hover && { boxShadow: '5px 10px 40px rgba(0,0,0,0.5)' })
 						}}
 					>
-						<Image poster_path={poster_path} />
+						<Image poster_path={this.props.data && this.props.data.poster_path} />
 						<Card.Body>
 							<Card.Title style={{ wordBreak: 'break-word', fontSize: '3vh' }}>
-								{original_title}
+								{this.props.data && this.props.data.original_title}
 							</Card.Title>
-							<Star rate={vote_average} />
-							<Card.Text>{`${vote_count} Votes`}</Card.Text>
-							<Card.Text>
-								{/* {this.state.buy ? <i class="fas fa-check" /> : <i className="fas fa-plus" />} */}
-								{/* <Buy /> */}
-							</Card.Text>
+							<Star rate={this.props.data && this.props.data.vote_average} />
+							<Card.Text>{`${this.props.data && this.props.data.vote_count} Votes`}</Card.Text>
 						</Card.Body>
 						<Card.Footer className="d-flex justify-content-between">
-							<Price rate={vote_average} />
-							<Button className="text-right mx-2" onClick={this.getDetail} variant="dark">
-								{this.props.t(`DETAIL.${'Selengkapnya'}`)}
-							</Button>
+							<Price rate={this.props.data && this.props.data.vote_average} />
+							{this.state.watchlist ? (
+								<Button className="text-right mx-2" onClick={this.getDetail} variant="dark">
+									{this.props.t(`DETAIL.${'Selengkapnya'}`)}
+								</Button>
+							) : (
+								<Button className="text-right mx-2" variant="dark">
+									{this.props.t(`DETAIL.${'Watchlist'}`)}
+								</Button>
+							)}
 						</Card.Footer>
 					</Card>
 				</React.Fragment>

@@ -13,6 +13,7 @@ const movie = (state = initial, action) => {
 		case LOAD_DATA_SUCCESS:
 			// console.log('reducers', state);
 			return {
+				...state,
 				...action.movie
 			};
 
