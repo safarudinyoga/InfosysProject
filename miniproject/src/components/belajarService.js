@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, ButtonToolbar, Card } from 'react-bootstrap';
-import { editOn, movieSelected, movieDeselected } from '../actions/index';
+import { movieSelected, movieDeselected } from '../actions/index';
 
 class belajarService extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			add: false,
-			itemAdded: false
+			itemAdded: []
 		};
 	}
 
@@ -18,42 +18,55 @@ class belajarService extends Component {
 		});
 	};
 
-	handleItemAdded = () => {
-		this.setState({
-			itemAdded: !this.state.itemAdded
-		});
+	handleItemAdded = (index) => () => {
+		this.setState(({ itemAdded }) => ({
+			itemAdded: itemAdded.map((item, i) => (i === index ? !item : item))
+		}));
 	};
 
 	componentDidMount = () => {
 		const movie = {
 			angka: [ 1, 2, 3, 4, 5, 6 ]
 		};
-		this.props.onMovieSelected(movie);
+		const { service } = this.props;
+		this.props.onMovieSelected(movie, () => {
+			const serviceLength = Object.keys(service).length;
+			this.setState({ itemAdded: [ ...Array(serviceLength) ].map(() => false) });
+		});
+	};
+
+	renderItem = (isAdded = true) => {
+		const { itemAdded, add } = this.state;
+		const { service } = this.props;
+		return Object.values(service).map((item, index) => {
+			return (
+				(isAdded ? itemAdded[index] : !itemAdded[index]) && (
+					<div key={index}>
+						<Button onClick={add ? this.handleItemAdded(index) : () => {}} className="mx-2">
+							{item}
+							{add &&
+								(isAdded ? (
+									<i className="fas fa-minus" style={{ marginLeft: '10px' }} />
+								) : (
+									<i className="fas fa-plus" style={{ marginLeft: '10px' }} />
+								))}
+						</Button>
+					</div>
+				)
+			);
+		});
 	};
 
 	render() {
-		console.log('service', this.props.service);
-		console.log(this.state.itemAdded);
+		const { add } = this.state;
 
-		const listAngka = Object.values(this.props.service).map((item, index) => {
-			return (
-				<div key={index}>
-					<Button onClick={this.handleItemAdded} className="mx-2">
-						{item}
-						{this.state.add ? <i className="fas fa-plus" style={{ marginLeft: '10px' }} /> : ''}
-					</Button>
-				</div>
-			);
-		});
-
-		if (this.state.add) {
+		if (add) {
 			return (
 				<div className="container">
 					<Card>
 						<Card>
 							<Card.Body>
-								<ButtonToolbar />
-								{this.state.itemAdded ? <div>{listAngka}</div> : ''}
+								<ButtonToolbar>{this.renderItem(true)}</ButtonToolbar>
 								<Button style={{ float: 'right' }} onClick={this.handleAddButton}>
 									{' '}
 									<i className="fas fa-times" />
@@ -62,7 +75,7 @@ class belajarService extends Component {
 						</Card>
 						<Card>
 							<Card.Body>
-								<ButtonToolbar>{listAngka}</ButtonToolbar>
+								<ButtonToolbar>{this.renderItem(false)}</ButtonToolbar>
 							</Card.Body>
 						</Card>
 					</Card>
@@ -74,24 +87,15 @@ class belajarService extends Component {
 					<Card>
 						<Card>
 							<Card.Body>
-								<ButtonToolbar />
+								<ButtonToolbar>{this.renderItem(true)}</ButtonToolbar>
 								<Button style={{ float: 'right' }} onClick={this.handleAddButton}>
 									EDIT
-									{/* <i className="fas fa-plus" /> */}
 								</Button>
 							</Card.Body>
 						</Card>
 						<Card>
 							<Card.Body>
-								<ButtonToolbar>
-									{listAngka}
-									{/* <Button className="mx-2">1</Button>
-									<Button className="mx-2">2</Button>
-									<Button className="mx-2">3</Button>
-									<Button className="mx-2">4</Button>
-									<Button className="mx-2">5</Button>
-									<Button className="mx-2">6</Button> */}
-								</ButtonToolbar>
+								<ButtonToolbar>{this.renderItem(false)}</ButtonToolbar>
 							</Card.Body>
 						</Card>
 					</Card>
@@ -106,7 +110,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	onMovieSelected: (service) => dispatch(movieSelected(service)),
+	onMovieSelected: (service, cb = () => {}) => {
+		dispatch(movieSelected(service));
+		cb();
+	},
 	onMovieDeselected: (service) => dispatch(movieDeselected(service))
 });
 

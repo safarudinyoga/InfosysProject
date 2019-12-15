@@ -1,17 +1,7 @@
-import { EDIT_ON, EDIT_OFF, MOVIE_SELECTED, MOVIE_DESELECTED } from '../constants/constant';
+import { MOVIE_SELECTED, MOVIE_DESELECTED } from '../constants/constant';
 
-const service = (state = {}, action) => {
+const service = (state = [ 1, 2, 3, 4, 5, 6 ], action) => {
 	switch (action.type) {
-		case EDIT_ON:
-			return {
-				...state
-			};
-
-		case EDIT_OFF:
-			return {
-				...state
-			};
-
 		case MOVIE_SELECTED:
 			// console.log('reducers button', action.movie.angka);
 			return {
